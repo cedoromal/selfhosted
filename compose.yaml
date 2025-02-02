@@ -1,0 +1,109 @@
+services:
+  traefik:
+    image: traefik:${TRAEFIK_VERSION:-latest}
+    container_name: traefik
+    command:
+      #- "--log.level=DEBUG"
+      - "--api.insecure=false"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entryPoints.web.address=:80"
+      - "--entryPoints.websecure.address=:443"
+      - "--certificatesresolvers.cfdnschallenge.acme.dnschallenge=true"
+      - "--certificatesresolvers.cfdnschallenge.acme.dnschallenge.provider=cloudflare"
+      - "--certificatesresolvers.cfdnschallenge.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
+      - "--certificatesresolvers.cfdnschallenge.acme.email=${CF_DNS_CHALLENGE_ACME_EMAIL:?}"
+      - "--certificatesresolvers.cfdnschallenge.acme.storage=/letsencrypt/acme.json"
+    ports:
+      - 80:80
+      - 443:443
+      #- 8080:8080
+    volumes:
+      - traefik_letsencrypt:/letsencrypt
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      - CF_DNS_API_TOKEN=${CF_DNS_API_TOKEN:?}
+      - CF_ZONE_API_TOKEN=${CF_ZONE_API_TOKEN:?}
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.traefik.rule=Host(`traefik.${BASE_DOMAIN:?}`)
+      - traefik.http.routers.traefik.service=api@internal
+      - traefik.http.routers.traefik.entrypoints=websecure
+      - traefik.http.routers.traefik.tls.certresolver=cfdnschallenge
+      - homepage.group=Networking
+      - homepage.name=Traefik
+      - homepage.icon=traefik
+      - homepage.href=https://traefik.${BASE_DOMAIN:?}/
+      - "homepage.description=a modern HTTP reverse proxy and load balancer that makes deploying microservices easy"
+
+  docker-socket-proxy:
+    image: ghcr.io/tecnativa/docker-socket-proxy:latest
+    container_name: docker-socket-proxy
+    environment:
+      - CONTAINERS=1 # Allow access to viewing containers
+      - SERVICES=1 # Allow access to viewing services (necessary when using Docker Swarm)
+      - TASKS=1 # Allow access to viewing tasks (necessary when using Docker Swarm)
+      - POST=0 # Disallow any POST operations (effectively read-only)
+    expose:
+      - 2375
+    #ports:
+    #  - 127.0.0.1:2375:2375
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro # Mounted as read-only
+    restart: unless-stopped
+
+  homepage:
+    image: ghcr.io/gethomepage/homepage:${HOMEPAGE_VERSION:-latest}
+    container_name: homepage
+    expose:
+      - 3000
+    #ports:
+    #  - 3000:3000
+    volumes:
+      - ./.homepage:/app/config # Make sure your local config directory exists
+    #  - /var/run/docker.sock:/var/run/docker.sock # (optional) For docker integrations
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.homepage.rule=Host(`home.${BASE_DOMAIN:?}`)
+      - traefik.http.routers.homepage.entrypoints=websecure
+      - traefik.http.routers.homepage.tls.certresolver=cfdnschallenge
+
+  code-server:
+    image: lscr.io/linuxserver/code-server:latest
+    container_name: code-server
+    environment:
+      - PUID=${CODE_SERVER_PUID:-1000}
+      - PGID=${CODE_SERVER_PGID:-1000}
+      - TZ=${CODE_SERVER_TIMEZONE:-Etc/UTC}
+      - PASSWORD=${CODE_SERVER_PASSWORD:?} #optional
+      #- HASHED_PASSWORD= #optional
+      - SUDO_PASSWORD=${CODE_SERVER_SUDO_PASSWORD:?} #optional
+      #- SUDO_PASSWORD_HASH= #optional
+      - PROXY_DOMAIN=${BASE_DOMAIN} #optional
+      #- DEFAULT_WORKSPACE=/config/workspace #optional
+    volumes:
+      - code_server:/config
+    expose:
+      - 8443
+    #ports:
+    #  - 8443:8443
+    restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.code-server.rule=Host(`code.${BASE_DOMAIN:?}`)
+      - traefik.http.routers.code-server.entrypoints=websecure
+      - traefik.http.routers.code-server.tls.certresolver=cfdnschallenge
+      ### Proxy to proxy domain
+      - traefik.http.routers.code-server-proxy.rule=HostRegexp(`^([1-9][0-9]{0,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])(\.${BASE_DOMAIN:?})$`)
+      - traefik.http.routers.code-server-proxy.entrypoints=web
+      #- traefik.http.routers.code-server-proxy.tls.certresolver=cfdnschallenge
+      ###
+      - homepage.group=Programming
+      - homepage.name=Code
+      - homepage.icon=code-server
+      - homepage.href=https://code.${BASE_DOMAIN:?}/
+      - "homepage.description=VS Code running on a remote server, accessible through the browser"
+
+volumes:
+  traefik_letsencrypt:
+  code_server:
