@@ -11,7 +11,7 @@ services:
       - "--entryPoints.websecure.address=:443"
       - "--certificatesresolvers.cfdnschallenge.acme.dnschallenge=true"
       - "--certificatesresolvers.cfdnschallenge.acme.dnschallenge.provider=cloudflare"
-      - "--certificatesresolvers.cfdnschallenge.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
+      #- "--certificatesresolvers.cfdnschallenge.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
       - "--certificatesresolvers.cfdnschallenge.acme.email=${CF_DNS_CHALLENGE_ACME_EMAIL:?}"
       - "--certificatesresolvers.cfdnschallenge.acme.storage=/letsencrypt/acme.json"
     ports:
