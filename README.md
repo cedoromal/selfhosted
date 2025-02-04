@@ -17,17 +17,6 @@ CF_DNS_CHALLENGE_ACME_EMAIL=""
 CF_DNS_API_TOKEN=""
 # Cloudflare API Token with Zone:Read Permission
 CF_ZONE_API_TOKEN=""
-
-# (Optional) PUID of user on host (check using `id $user` command) defaults to 1000
-CODE_SERVER_PUID=""
-# (Optional) PGID of user on host (check using `id $user` command) defaults to 1000
-CODE_SERVER_PGID=""
-# (Optional) Defaults to "Etc/UTC"
-CODE_SERVER_TIMEZONE=""
-# Web GUI password
-CODE_SERVER_PASSWORD=""
-# Password for sudo access
-CODE_SERVER_SUDO_PASSWORD=""
 ```
 
 # Usage
