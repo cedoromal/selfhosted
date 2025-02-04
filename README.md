@@ -34,5 +34,5 @@ CODE_SERVER_SUDO_PASSWORD=""
 Run the following command on the dir where `compose.yaml` is located:
 ```bash
 docker compose pull
-docker compose up -d
+docker compose up -d --remove-orphans
 ```
