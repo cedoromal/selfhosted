@@ -67,6 +67,10 @@ services:
       - traefik.http.routers.homepage.rule=Host(`home.${BASE_DOMAIN:?}`)
       - traefik.http.routers.homepage.entrypoints=websecure
       - traefik.http.routers.homepage.tls.certresolver=cfdnschallenge
+      - homepage.group=Miscellaneous
+      - homepage.name=Homepage
+      - homepage.icon=homepage
+      - "homepage.description=you're looking at it right now"
 
   redbot:
     image: phasecorex/red-discordbot:${REDBOT_TAG:-latest}
@@ -79,6 +83,12 @@ services:
       - PREFIX=${REDBOT_PREFIX:?}
       - TZ=${REDBOT_TIMEZONE:-Etc/UTC}
       - PUID=${REDBOT_PUID:-1000}
+    labels:
+      - homepage.group=Bots
+      - homepage.name=Red
+      - homepage.icon=discord
+      - homepage.href=https://docs.discord.red/en/stable/
+      - "homepage.description=a fully modular Discord bot"
 
 volumes:
   traefik_letsencrypt:
