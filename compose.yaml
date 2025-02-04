@@ -1,6 +1,6 @@
 services:
   traefik:
-    image: traefik:${TRAEFIK_VERSION:-latest}
+    image: traefik:${TRAEFIK_TAG:-latest}
     container_name: traefik
     command:
       #- "--log.level=DEBUG"
@@ -37,7 +37,7 @@ services:
       - "homepage.description=a modern HTTP reverse proxy and load balancer that makes deploying microservices easy"
 
   docker-socket-proxy:
-    image: ghcr.io/tecnativa/docker-socket-proxy:latest
+    image: ghcr.io/tecnativa/docker-socket-proxy:${DOCKER_SOCKET_PROXY_TAG:-latest}
     container_name: docker-socket-proxy
     environment:
       - CONTAINERS=1 # Allow access to viewing containers
@@ -53,7 +53,7 @@ services:
     restart: unless-stopped
 
   homepage:
-    image: ghcr.io/gethomepage/homepage:${HOMEPAGE_VERSION:-latest}
+    image: ghcr.io/gethomepage/homepage:${HOMEPAGE_TAG:-latest}
     container_name: homepage
     expose:
       - 3000
@@ -68,5 +68,18 @@ services:
       - traefik.http.routers.homepage.entrypoints=websecure
       - traefik.http.routers.homepage.tls.certresolver=cfdnschallenge
 
+  redbot:
+    image: phasecorex/red-discordbot:${REDBOT_TAG:-latest}
+    container_name: redbot
+    restart: unless-stopped
+    volumes:
+      - redbot_data:/data
+    environment:
+      - TOKEN=${REDBOT_DISCORD_TOKEN:?}
+      - PREFIX=${REDBOT_PREFIX:?}
+      - TZ=${REDBOT_TIMEZONE:-Etc/UTC}
+      - PUID=${REDBOT_PUID:-1000}
+
 volumes:
   traefik_letsencrypt:
+  redbot_data:
