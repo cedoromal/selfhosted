@@ -8,8 +8,6 @@ BASE_DOMAIN=""
 TRAEFIK_VERSION=""
 # (Optional) Defaults to "latest"
 HOMEPAGE_VERSION=""
-# (Optional) Defaults to "latest"
-CODER_VERSION=""
 
 # Email for ACME
 CF_DNS_CHALLENGE_ACME_EMAIL=""
