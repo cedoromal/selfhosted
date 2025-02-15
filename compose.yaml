@@ -123,7 +123,7 @@ services:
     - traefik.http.routers.drasl.rule=Host(`drasl.${BASE_DOMAIN:?}`)
     - traefik.http.routers.drasl.entrypoints=websecure
     - traefik.http.routers.drasl.tls.certresolver=cfdnschallenge
-    - homepage.group=Authentication
+    - homepage.group=Auth
     - homepage.name=Drasl
     - homepage.icon=https://raw.githubusercontent.com/unmojang/drasl/master/doc/icon.png
     - homepage.href=https://drasl.${BASE_DOMAIN:?}/

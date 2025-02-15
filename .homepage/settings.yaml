@@ -26,5 +26,5 @@ layout:
     icon: mdi-dots-grid
   Bots:
     icon: mdi-robot-outline
-  Authentication:
+  Auth:
     icon: mdi-lock-outline
