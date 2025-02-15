@@ -90,6 +90,23 @@ services:
       - homepage.href=https://docs.discord.red/en/stable/
       - "homepage.description=a fully modular Discord bot"
 
+  httpd-files:
+    image: httpd:latest
+    container_name: httpd-files
+    volumes:
+      - ./.httpd-files/files:/usr/local/apache2/htdocs:ro
+    restart: always
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.httpd-files.rule=Host(`files.${BASE_DOMAIN:?}`)
+      - traefik.http.routers.httpd-files.entrypoints=websecure
+      - traefik.http.routers.httpd-files.tls.certresolver=cfdnschallenge
+      - homepage.group=Miscellaneous
+      - homepage.name=Files
+      - homepage.icon=apache
+      - homepage.href=https://files.${BASE_DOMAIN:?}/
+      - "homepage.description=an Apache HTTP server that serves files"
+
 volumes:
   traefik_letsencrypt:
   redbot_data:
