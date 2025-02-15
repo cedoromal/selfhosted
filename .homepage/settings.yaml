@@ -2,6 +2,12 @@
 # For configuration options and examples, please see:
 # https://gethomepage.dev/configs/settings/
 
+title: CEDoromal Homepage
+
+description: My selfhosted Homepage
+
+color: stone
+
 quicklaunch:
   searchDescriptions: true
   hideInternetSearch: true
@@ -12,3 +18,11 @@ quicklaunch:
 showStats: true
 
 statusStyle: "dot"
+
+layout:
+  Networking:
+    icon: mdi-network-outline
+  Miscellaneous:
+    icon: mdi-dots-grid
+  Bots:
+    icon: mdi-robot-outline

@@ -2,3 +2,7 @@
 # For configuration options and examples, please see:
 # https://gethomepage.dev/configs/bookmarks
 
+- Files:
+    - Resume:
+        - icon: mdi-file-account-outline
+          href: https://files.cedoromal.com/Doromal_Resume.pdf

@@ -14,3 +14,11 @@
       dateStyle: short
       timeStyle: short
       hour12: true
+
+- greeting:
+    text_size: xl
+    text: Welcome to my Homepage
+
+- greeting:
+    text_size: xs
+    text: (some links will not work if you are outside my home network)
