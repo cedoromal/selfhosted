@@ -2,6 +2,7 @@ services:
   traefik:
     image: traefik:${TRAEFIK_TAG:-latest}
     container_name: traefik
+    restart: unless-stopped
     command:
       #- "--log.level=DEBUG"
       - "--api.insecure=false"
@@ -39,6 +40,7 @@ services:
   docker-socket-proxy:
     image: ghcr.io/tecnativa/docker-socket-proxy:${DOCKER_SOCKET_PROXY_TAG:-latest}
     container_name: docker-socket-proxy
+    restart: unless-stopped
     environment:
       - CONTAINERS=1 # Allow access to viewing containers
       - SERVICES=1 # Allow access to viewing services (necessary when using Docker Swarm)
@@ -50,11 +52,11 @@ services:
     #  - 127.0.0.1:2375:2375
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro # Mounted as read-only
-    restart: unless-stopped
 
   homepage:
     image: ghcr.io/gethomepage/homepage:${HOMEPAGE_TAG:-latest}
     container_name: homepage
+    restart: unless-stopped
     expose:
       - 3000
     #ports:
@@ -93,9 +95,9 @@ services:
   httpd-files:
     image: httpd:latest
     container_name: httpd-files
+    restart: unless-stopped
     volumes:
       - ./.httpd-files/files:/usr/local/apache2/htdocs:ro
-    restart: always
     labels:
       - traefik.enable=true
       - traefik.http.routers.httpd-files.rule=Host(`files.${BASE_DOMAIN:?}`)
@@ -110,6 +112,7 @@ services:
   drasl:
     image: unmojang/drasl:latest
     container_name: drasl
+    restart: unless-stopped
     expose:
       - 25585
     volumes:
