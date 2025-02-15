@@ -107,6 +107,26 @@ services:
       - homepage.href=https://files.${BASE_DOMAIN:?}/
       - "homepage.description=an Apache HTTP server that serves files"
 
+  drasl:
+    image: unmojang/drasl:latest
+    container_name: drasl
+    expose:
+      - 25585
+    volumes:
+      - ./.drasl/config:/etc/drasl
+      - drasl_data:/var/lib/drasl
+    labels:
+    - traefik.enable=true
+    - traefik.http.routers.drasl.rule=Host(`drasl.${BASE_DOMAIN:?}`)
+    - traefik.http.routers.drasl.entrypoints=websecure
+    - traefik.http.routers.drasl.tls.certresolver=cfdnschallenge
+    - homepage.group=Games
+    - homepage.name=Drasl
+    - homepage.icon=https://raw.githubusercontent.com/unmojang/drasl/master/doc/icon.png
+    - homepage.href=https://drasl.${BASE_DOMAIN:?}/
+    - "homepage.description=an alternative API server for Minecraft that handles authentication, skins, and capes"
+
 volumes:
   traefik_letsencrypt:
   redbot_data:
+  drasl_data:

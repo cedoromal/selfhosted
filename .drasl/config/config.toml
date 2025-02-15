@@ -1,0 +1,33 @@
+# Drasl default config file
+
+# Example: drasl.example.com
+Domain = "drasl.cedoromal.com"
+
+# Example: https://drasl.example.com
+BaseURL = "https://drasl.cedoromal.com"
+
+# List of usernames who automatically become admins of the Drasl instance
+DefaultAdmins = ["0xCharlie"]
+
+[RegistrationNewPlayer]
+Allow = true
+AllowChoosingUUID = false
+RequireInvite = true
+
+[RegistrationExistingPlayer]
+  Allow = true
+  Nickname = "Mojang"
+  SessionURL = "https://sessionserver.mojang.com"
+  AccountURL = "https://api.mojang.com"
+  SetSkinURL = "https://www.minecraft.net/msaprofile/mygames/editskin"
+  RequireSkinVerification = true
+  RequireInvite = true
+
+[[FallbackAPIServers]]
+  Nickname = "Mojang"
+  SessionURL = "https://sessionserver.mojang.com"
+  AccountURL = "https://api.mojang.com"
+  ServicesURL = "https://api.minecraftservices.com"
+  SkinDomains = ["textures.minecraft.net"]
+  CacheTTLSeconds = 60
+  DenyUnknownUsers = true
