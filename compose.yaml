@@ -134,6 +134,25 @@ services:
     - homepage.href=https://drasl.${BASE_DOMAIN:?}/
     - "homepage.description=an alternative API server for Minecraft that handles authentication, skins, and capes"
 
+  personal:
+    container_name: personal
+    build: https://github.com/cedoromal/personal.git
+    expose: 
+      - 8080
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.personal.rule=Host(`www.${BASE_DOMAIN:?}`)
+      - traefik.http.routers.personal.entrypoints=websecure
+      - traefik.http.routers.personal.tls.certresolver=cfdnschallenge
+      - traefik.http.routers.personal-ws.rule=Host(`www.${BASE_DOMAIN:?}`)
+      - traefik.http.routers.personal-ws.entrypoints=websecure
+      - traefik.http.routers.personal-ws.tls.certresolver=cfdnschallenge
+      - homepage.group=Miscellaneous
+      - homepage.name=Personal
+      - homepage.icon=https://raw.githubusercontent.com/cedoromal/personal/refs/heads/master/view/static/images/favicon.ico
+      - homepage.href=https://www.${BASE_DOMAIN:?}/
+      - "homepage.description=my personal website made with Go, Gin, and Alpine"
+
 volumes:
   traefik_letsencrypt:
   redbot_data:

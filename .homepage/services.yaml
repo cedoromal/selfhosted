@@ -2,13 +2,6 @@
 # For configuration options and examples, please see:
 # https://gethomepage.dev/configs/services/
 
-- Miscellaneous:
-    - Personal Website:
-        href: https://www.cedoromal.com/
-        icon: https://www.cedoromal.com/favicon.png
-        description: a simple landing page made with Svelte and hosted on Vercel
-        ping: www.cedoromal.com
-
 - Networking:
     - OPNsense:
         href: https://opnsense.cedoromal.com/

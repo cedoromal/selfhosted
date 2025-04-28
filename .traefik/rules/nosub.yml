@@ -1,0 +1,16 @@
+http:
+  routers:
+    nosub:
+      rule: Host(`cedoromal.com`)
+      entryPoints: websecure
+      tls:
+        certresolver: cfdnschallenge
+      service: noop@internal
+      middlewares: nosub
+  middlewares:
+    nosub:
+      redirectRegex:
+        regex: "^https?://cedoromal.com/(.*)"
+        replacement: "https://www.cedoromal.com/${1}"
+        permanent: true
+        
