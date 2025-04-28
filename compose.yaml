@@ -8,6 +8,8 @@ services:
       - "--api.insecure=false"
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
+      - "--providers.file.directory=/rules"
+      - "--providers.file.watch=true"
       - "--entryPoints.web.address=:80"
       - "--entryPoints.websecure.address=:443"
       - "--certificatesresolvers.cfdnschallenge.acme.dnschallenge=true"
@@ -22,6 +24,7 @@ services:
     volumes:
       - traefik_letsencrypt:/letsencrypt
       - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./.traefik/rules:/rules
     environment:
       - CF_DNS_API_TOKEN=${CF_DNS_API_TOKEN:?}
       - CF_ZONE_API_TOKEN=${CF_ZONE_API_TOKEN:?}
