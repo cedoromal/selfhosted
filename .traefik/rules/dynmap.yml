@@ -1,0 +1,13 @@
+http:
+  routers:
+    dynmap:
+      rule: Host(`dynmap.cedoromal.com`)
+      entrypoints: websecure
+      tls:
+        certresolver: cfdnschallenge
+      service: dynmap
+  services:
+    dynmap:
+      loadBalancer:
+        servers:
+          - url: "http://minecraft.cedoromal.com:8123/"
