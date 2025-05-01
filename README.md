@@ -1,18 +1,6 @@
 # Requirements
 Add a `.env` file with the following fields in the same dir as `compose.yaml`:
 ```.env
-# Base domain for services
-BASE_DOMAIN=""
-
-# (Optional) Defaults to "latest"
-TRAEFIK_TAG=""
-# (Optional) Defaults to "latest"
-DOCKER_SOCKET_PROXY_TAG=""
-# (Optional) Defaults to "latest"
-HOMEPAGE_TAG=""
-# (Optional) Defaults to "latest"
-REDBOT_TAG=""
-
 # Email for ACME
 CF_DNS_CHALLENGE_ACME_EMAIL=""
 # Cloudflare API Token with DNS:Edit Permission

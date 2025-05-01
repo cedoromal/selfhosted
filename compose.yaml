@@ -1,6 +1,6 @@
 services:
   traefik:
-    image: traefik:${TRAEFIK_TAG:-latest}
+    image: traefik:latest
     container_name: traefik
     restart: unless-stopped
     command:
@@ -30,18 +30,18 @@ services:
       - CF_ZONE_API_TOKEN=${CF_ZONE_API_TOKEN:?}
     labels:
       - traefik.enable=true
-      - traefik.http.routers.traefik.rule=Host(`traefik.${BASE_DOMAIN:?}`)
+      - traefik.http.routers.traefik.rule=Host(`traefik.cedoromal.com`)
       - traefik.http.routers.traefik.service=api@internal
       - traefik.http.routers.traefik.entrypoints=websecure
       - traefik.http.routers.traefik.tls.certresolver=cfdnschallenge
       - homepage.group=Networking
       - homepage.name=Traefik
       - homepage.icon=traefik
-      - homepage.href=https://traefik.${BASE_DOMAIN:?}/
+      - homepage.href=https://traefik.cedoromal.com/
       - "homepage.description=a modern HTTP reverse proxy and load balancer that makes deploying microservices easy"
 
   docker-socket-proxy:
-    image: ghcr.io/tecnativa/docker-socket-proxy:${DOCKER_SOCKET_PROXY_TAG:-latest}
+    image: ghcr.io/tecnativa/docker-socket-proxy:latest
     container_name: docker-socket-proxy
     restart: unless-stopped
     environment:
@@ -57,7 +57,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro # Mounted as read-only
 
   homepage:
-    image: ghcr.io/gethomepage/homepage:${HOMEPAGE_TAG:-latest}
+    image: ghcr.io/gethomepage/homepage:latest
     container_name: homepage
     restart: unless-stopped
     expose:
@@ -68,10 +68,10 @@ services:
       - ./.homepage:/app/config # Make sure your local config directory exists
     #  - /var/run/docker.sock:/var/run/docker.sock # (optional) For docker integrations
     environment:
-      - HOMEPAGE_ALLOWED_HOSTS=home.${BASE_DOMAIN:?}
+      - HOMEPAGE_ALLOWED_HOSTS=home.cedoromal.com
     labels:
       - traefik.enable=true
-      - traefik.http.routers.homepage.rule=Host(`home.${BASE_DOMAIN:?}`)
+      - traefik.http.routers.homepage.rule=Host(`home.cedoromal.com`)
       - traefik.http.routers.homepage.entrypoints=websecure
       - traefik.http.routers.homepage.tls.certresolver=cfdnschallenge
       - homepage.group=Miscellaneous
@@ -80,7 +80,7 @@ services:
       - "homepage.description=you're looking at it right now"
 
   redbot:
-    image: phasecorex/red-discordbot:${REDBOT_TAG:-latest}
+    image: phasecorex/red-discordbot:latest
     container_name: redbot
     restart: unless-stopped
     volumes:
@@ -105,13 +105,13 @@ services:
       - ./.httpd-files/files:/usr/local/apache2/htdocs:ro
     labels:
       - traefik.enable=true
-      - traefik.http.routers.httpd-files.rule=Host(`files.${BASE_DOMAIN:?}`)
+      - traefik.http.routers.httpd-files.rule=Host(`files.cedoromal.com`)
       - traefik.http.routers.httpd-files.entrypoints=websecure
       - traefik.http.routers.httpd-files.tls.certresolver=cfdnschallenge
       - homepage.group=Miscellaneous
       - homepage.name=Files
       - homepage.icon=apache
-      - homepage.href=https://files.${BASE_DOMAIN:?}/
+      - homepage.href=https://files.cedoromal.com/
       - "homepage.description=an Apache HTTP server that serves files"
 
   drasl:
@@ -125,13 +125,13 @@ services:
       - drasl_data:/var/lib/drasl
     labels:
     - traefik.enable=true
-    - traefik.http.routers.drasl.rule=Host(`drasl.${BASE_DOMAIN:?}`)
+    - traefik.http.routers.drasl.rule=Host(`drasl.cedoromal.com`)
     - traefik.http.routers.drasl.entrypoints=websecure
     - traefik.http.routers.drasl.tls.certresolver=cfdnschallenge
     - homepage.group=Auth
     - homepage.name=Drasl
     - homepage.icon=https://raw.githubusercontent.com/unmojang/drasl/master/doc/icon.png
-    - homepage.href=https://drasl.${BASE_DOMAIN:?}/
+    - homepage.href=https://drasl.cedoromal.com/
     - "homepage.description=an alternative API server for Minecraft that handles authentication, skins, and capes"
 
   personal:
@@ -142,16 +142,16 @@ services:
       - 8080
     labels:
       - traefik.enable=true
-      - traefik.http.routers.personal.rule=Host(`www.${BASE_DOMAIN:?}`)
+      - traefik.http.routers.personal.rule=Host(`www.cedoromal.com`)
       - traefik.http.routers.personal.entrypoints=websecure
       - traefik.http.routers.personal.tls.certresolver=cfdnschallenge
-      - traefik.http.routers.personal-ws.rule=Host(`www.${BASE_DOMAIN:?}`)
+      - traefik.http.routers.personal-ws.rule=Host(`www.cedoromal.com`)
       - traefik.http.routers.personal-ws.entrypoints=websecure
       - traefik.http.routers.personal-ws.tls.certresolver=cfdnschallenge
       - homepage.group=Miscellaneous
       - homepage.name=Personal
       - homepage.icon=https://raw.githubusercontent.com/cedoromal/personal/refs/heads/master/view/static/images/favicon.ico
-      - homepage.href=https://www.${BASE_DOMAIN:?}/
+      - homepage.href=https://www.cedoromal.com/
       - "homepage.description=my personal website made with Go, Gin, and Alpine"
 
 volumes:
