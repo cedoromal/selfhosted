@@ -137,6 +137,7 @@ services:
   personal:
     container_name: personal
     build: https://github.com/cedoromal/personal.git
+    restart: unless-stopped
     expose: 
       - 8080
     labels:
