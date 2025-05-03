@@ -9,19 +9,23 @@ BaseURL = "https://drasl.cedoromal.com"
 # List of usernames who automatically become admins of the Drasl instance
 DefaultAdmins = ["0xCharlie"]
 
-[RegistrationNewPlayer]
-Allow = true
-AllowChoosingUUID = false
-RequireInvite = true
+[CreateNewPlayer]
+  AllowChoosingUUID = false
 
-[RegistrationExistingPlayer]
+[RegistrationNewPlayer]
+  Allow = true
+  RequireInvite = true
+
+[ImportExistingPlayer]
   Allow = true
   Nickname = "Mojang"
   SessionURL = "https://sessionserver.mojang.com"
   AccountURL = "https://api.mojang.com"
   SetSkinURL = "https://www.minecraft.net/msaprofile/mygames/editskin"
   RequireSkinVerification = true
-  RequireInvite = true
+
+[RegistrationExistingPlayer]
+  Allow = true
 
 [[FallbackAPIServers]]
   Nickname = "Mojang"
