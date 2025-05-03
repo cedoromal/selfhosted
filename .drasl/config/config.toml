@@ -26,6 +26,7 @@ DefaultAdmins = ["0xCharlie"]
 
 [RegistrationExistingPlayer]
   Allow = true
+  RequireInvite = true
 
 [[FallbackAPIServers]]
   Nickname = "Mojang"
