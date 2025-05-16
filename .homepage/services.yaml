@@ -8,3 +8,10 @@
         icon: opnsense
         description: an open source, FreeBSD-based firewall and routing software developed by Deciso
         ping: opnsense.cedoromal.com
+
+- Miscellaneous:
+    - Dynmap:
+        href: https://dynmap.cedoromal.com/
+        icon: minecraft
+        description: a Google Maps-like map for my Minecraft server
+        ping: minecraft.cedoromal.com
